@@ -1,0 +1,59 @@
+// App.jsx
+import React, { useState } from 'react';
+
+export default function App() {
+  const [resume, setResume] = useState(null);
+  const [jobDesc, setJobDesc] = useState('');
+  const [analysis, setAnalysis] = useState(null);
+
+  const handleUpload = (e) => {
+    setResume(e.target.files[0]);
+  };
+
+  const handleAnalyze = () => {
+    // Simulate backend response
+    setAnalysis({
+      matchScore: 85,
+      skillsMatched: ['Python', 'Machine Learning', 'Data Analysis'],
+      suggestions: ['Add leadership experience', 'Include GitHub link'],
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 font-sans">
+      <div className="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-xl">
+        <h1 className="text-2xl font-bold mb-4 text-center">AI Resume Analyzer</h1>
+
+        <label className="block mb-2 font-medium">Upload Resume (PDF)</label>
+        <input type="file" accept=".pdf" onChange={handleUpload} className="mb-4" />
+
+        <label className="block mb-2 font-medium">Paste Job Description</label>
+        <textarea
+          className="w-full p-2 border rounded mb-4"
+          rows={5}
+          value={jobDesc}
+          onChange={(e) => setJobDesc(e.target.value)}
+        ></textarea>
+
+        <button
+          onClick={handleAnalyze}
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Analyze Resume
+        </button>
+
+        {analysis && (
+          <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
+            <h2 className="text-lg font-semibold">Results:</h2>
+            <p><strong>Match Score:</strong> {analysis.matchScore}%</p>
+            <p><strong>Skills Matched:</strong> {analysis.skillsMatched.join(', ')}</p>
+            <p><strong>Suggestions:</strong></p>
+            <ul className="list-disc ml-6">
+              {analysis.suggestions.map((s, i) => <li key={i}>{s}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
